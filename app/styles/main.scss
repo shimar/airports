@@ -1,4 +1,4 @@
-$icon-font-path: '../fonts/';
+@import '_variables';
 
 // bower:scss
 @import "bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
@@ -11,5 +11,4 @@ $icon-font-path: '../fonts/';
   padding: 0.2em 0;
 }
 
-body {
-}
+@import '_layout';
