@@ -1,7 +1,7 @@
 $(function() {
     var g;
     var width  = '100%';
-    var height = 800;
+    var height = $(window).height();
     var map = d3.select('#map').append('svg')
               .attr('width', width)
               .attr('height', height)
