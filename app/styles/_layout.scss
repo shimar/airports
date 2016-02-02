@@ -1,2 +1,24 @@
 /* layout. */
 
+#wrapper {
+  padding-left: 0;
+
+  #sidebar-wrapper {
+    z-index: 1000;
+    position: fixed;
+    left: $sidebar-width;
+    width: $sidebar-width;
+    height: 100%;
+    margin-left: -$sidebar-width;
+    overflow-y: auto;
+    background: $sidebar-bg;
+  }
+
+  #page-content-wrapper {
+    position: absolute;
+    width: 100%;
+    margin-right: -$sidebar-width;
+  }
+}
+
+
