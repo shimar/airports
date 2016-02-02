@@ -1,7 +1,7 @@
 /* layout. */
 
 #wrapper {
-  padding-left: 0;
+  padding-left: $sidebar-width;
 
   #sidebar-wrapper {
     z-index: 1000;
@@ -15,9 +15,9 @@
   }
 
   #page-content-wrapper {
-    position: absolute;
+    position: relative;
     width: 100%;
-    margin-right: -$sidebar-width;
+    margin-right: 0;
   }
 }
 
