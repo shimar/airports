@@ -1,0 +1,38 @@
+/* sidebar. */
+.sidebar-nav {
+  position: absolute;
+  top: 0;
+  width: $sidebar-width;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    text-indent: 20px;
+    line-height: 40px;
+
+    a {
+      display: block;
+      text-decoration: none;
+      background: rgba(255, 255, 255, .2);
+      &:active,
+      &:focus {
+        text-decoration: none;
+      }
+    }
+  }
+
+  & > .sidebar-brand {
+    height: 64px;
+    font-size: 160%;
+    line-height: 60px;
+
+    a {
+      color: #999999;
+      &:hover {
+        color: #ffffff;
+        background: none;
+      }
+    }
+  }
+}
