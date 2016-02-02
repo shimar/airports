@@ -14,18 +14,24 @@
     a {
       display: block;
       text-decoration: none;
+      color: #999999;
       background: rgba(255, 255, 255, .2);
       &:active,
       &:focus {
         text-decoration: none;
       }
+      &:hover {
+        color: #ffffff;
+        background: none;
+      }
     }
   }
 
+  $sidebar-brand-height: 64px;
   & > .sidebar-brand {
-    height: 64px;
+    height: $sidebar-brand-height;
     font-size: 160%;
-    line-height: 60px;
+    line-height: $sidebar-brand-height;
 
     a {
       color: #999999;
