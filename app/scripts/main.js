@@ -35,6 +35,8 @@ var Airport = function() {
       var li = $('<li><a href="#">' + props.C28_005 + '</a></li>');
       $sidebarNav.append(li);
     }
+
+    $sidebarNav.perfectScrollbar();
   };
 
   this.loadAirport = function() {
