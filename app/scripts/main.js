@@ -30,6 +30,7 @@ var Airport = function() {
     var $sidebar    = $('.sidebar');
     var $sidebarNav = $('.sidebar-nav');
 
+    features = _.sortBy(features, function(o) { return o.properties.C28_001; });
     for (index in features) {
       var feature = features[index];
       var props   = feature.properties;
