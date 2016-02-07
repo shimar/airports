@@ -27,6 +27,7 @@ var Airport = function() {
 
   this.initAirportList = function(data) {
     var features = data.features;
+    var $sidebar    = $('.sidebar');
     var $sidebarNav = $('.sidebar-nav');
 
     for (index in features) {
@@ -35,8 +36,7 @@ var Airport = function() {
       var li = $('<li><a href="#">' + props.C28_005 + '</a></li>');
       $sidebarNav.append(li);
     }
-
-    $sidebarNav.perfectScrollbar();
+    $sidebar.perfectScrollbar();
   };
 
   this.loadAirport = function() {
