@@ -44,10 +44,18 @@ var Airport = function() {
     d3.json('json/Airport.json', this.onLoadAirport.bind(this));
   };
 
+  this.onLoadJapan = function(err, data) {
+  };
+
+  this.loadJapan = function() {
+    d3.json('json/jpn.json', this.onLoadJapan.bind(this));
+  };
+
   return this;
 };
 
 $(function() {
     var airport = new Airport();
+    airport.loadJapan();
     airport.loadAirport();
 }());
