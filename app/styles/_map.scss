@@ -1,6 +1,14 @@
 /* _map.scss */
 
+.airport {
+    stroke: #0000ff;
+    fill:   rgba(0, 0, 200, .8);
+    &:hover {
+        cursor: pointer;
+    }
+}
+
 .subunit {
-  fill: #fff;
+  fill: #aaa;
 }
 
