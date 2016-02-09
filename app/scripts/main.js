@@ -1,6 +1,6 @@
 var Airport = function() {
   this.width  = '100%';
-  this.height = $(window).height();
+  this.height = $(window).innerHeight();
   this.map = d3.select('#map').append('svg')
              .attr('width', this.width)
              .attr('height', this.height);
@@ -11,11 +11,10 @@ var Airport = function() {
   };
 
   this.initMap = function(data) {
-    var projection, path;
-    projection = d3.geo.mercator()
-                 .scale(1000)
-                 .center(d3.geo.centroid(data));
-    path = d3.geo.path().projection(projection);
+    var projection = d3.geo.mercator()
+                     .scale(1000)
+                     .center(d3.geo.centroid(data));
+    var path = d3.geo.path().projection(projection);
 
     this.map.selectAll('path').data(data.features)
     .enter()
@@ -45,10 +44,21 @@ var Airport = function() {
   };
 
   this.onLoadJapan = function(err, data) {
+    var subunits = topojson.feature(data, data.objects.japan_subunits);
+    var projection = d3.geo.mercator().center(d3.geo.centroid(subunits)).scale(1000);
+    var path = d3.geo.path().projection(projection);
+
+    console.log(subunits);
+    this.map.selectAll('.subunit')
+    .data(subunits.features)
+    .enter()
+    .append('path')
+    .attr('class', 'subunit')
+    .attr('d', path);
   };
 
   this.loadJapan = function() {
-    d3.json('json/jpn.json', this.onLoadJapan.bind(this));
+    d3.json('json/japan.topojson', this.onLoadJapan.bind(this));
   };
 
   return this;
