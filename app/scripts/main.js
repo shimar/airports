@@ -20,9 +20,10 @@ var Airport = function() {
     this.map.selectAll('path').data(data.features)
     .enter()
     .append('path')
-    .attr('d', path)
-    .attr('stroke', 'blue')
-    .attr('fill', 'rgba(0, 0, 255, .5)');
+    .attr('class', 'airport')
+    .attr('d', path);
+    // .attr('stroke', 'blue')
+    // .attr('fill', 'rgba(0, 0, 255, .5)');
   };
 
   this.initAirportList = function(data) {
@@ -50,7 +51,6 @@ var Airport = function() {
     var projection = d3.geo.mercator().center(this.center).scale(1000);
     var path = d3.geo.path().projection(projection);
 
-    console.log(subunits);
     this.map.selectAll('.subunit')
     .data(subunits.features)
     .enter()
