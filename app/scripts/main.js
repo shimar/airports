@@ -4,6 +4,7 @@ var Airport = function() {
   this.map = d3.select('#map').append('svg')
              .attr('width', this.width)
              .attr('height', this.height);
+  this.center = null;
 
   this.onLoadAirport = function(err, data) {
     this.initMap(data);
@@ -13,7 +14,7 @@ var Airport = function() {
   this.initMap = function(data) {
     var projection = d3.geo.mercator()
                      .scale(1000)
-                     .center(d3.geo.centroid(data));
+                     .center(this.center);
     var path = d3.geo.path().projection(projection);
 
     this.map.selectAll('path').data(data.features)
@@ -45,7 +46,8 @@ var Airport = function() {
 
   this.onLoadJapan = function(err, data) {
     var subunits = topojson.feature(data, data.objects.japan_subunits);
-    var projection = d3.geo.mercator().center(d3.geo.centroid(subunits)).scale(1000);
+    this.center = d3.geo.centroid(subunits);
+    var projection = d3.geo.mercator().center(this.center).scale(1000);
     var path = d3.geo.path().projection(projection);
 
     console.log(subunits);
