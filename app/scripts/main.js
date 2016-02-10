@@ -4,7 +4,11 @@ var Airport = function() {
   this.map = d3.select('#map').append('svg')
              .attr('width', this.width)
              .attr('height', this.height);
-  this.center = null;
+
+  this.center    = null;
+  this.airports  = null;
+  this.terminals = null;
+  this.refpoints = null;
 
   this.onLoadAirport = function(err, data) {
     this.initMap(data);
@@ -22,8 +26,6 @@ var Airport = function() {
     .append('path')
     .attr('class', 'airport')
     .attr('d', path);
-    // .attr('stroke', 'blue')
-    // .attr('fill', 'rgba(0, 0, 255, .5)');
   };
 
   this.initAirportList = function(data) {
@@ -32,13 +34,21 @@ var Airport = function() {
     var $sidebarNav = $('.sidebar-nav');
 
     features = _.sortBy(features, function(o) { return o.properties.C28_001; });
+    this.airports = features;
     for (index in features) {
       var feature = features[index];
       var props   = feature.properties;
-      var li = $('<li><a href="#">' + props.C28_005 + '</a></li>');
+      var anchor  = $('<a href="#" data-index="' + index + '">' + props.C28_005 + '</a>');
+      anchor.bind('click', this.onListItemClick.bind(this));
+      var li = $('<li></li>');
+      li.append(anchor);
       $sidebarNav.append(li);
     }
     $sidebar.perfectScrollbar();
+  };
+
+  this.onListItemClick = function(event) {
+    var target = $(event.target);
   };
 
   this.loadAirport = function() {
