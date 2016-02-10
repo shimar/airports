@@ -5,10 +5,11 @@ var Airport = function() {
              .attr('width', this.width)
              .attr('height', this.height);
 
-  this.center    = null;
-  this.airports  = null;
-  this.terminals = null;
-  this.refpoints = null;
+  this.projection = null;
+  this.center     = null;
+  this.airports   = null;
+  this.terminals  = null;
+  this.refpoints  = null;
 
   this.onLoadAirport = function(err, data) {
     this.initMap(data);
@@ -16,10 +17,7 @@ var Airport = function() {
   };
 
   this.initMap = function(data) {
-    var projection = d3.geo.mercator()
-                     .scale(1000)
-                     .center(this.center);
-    var path = d3.geo.path().projection(projection);
+    var path = d3.geo.path().projection(this.projection);
 
     this.map.selectAll('path').data(data.features)
     .enter()
@@ -48,7 +46,17 @@ var Airport = function() {
   };
 
   this.onListItemClick = function(event) {
-    var target = $(event.target);
+    var $target = $(event.target);
+    var index = $target.attr('data-index');
+    var feature = this.airports[index];
+    var center = d3.geo.centroid(feature);
+    var coords = this.projection(center);
+    var defCoords = this.projection(this.center);
+
+    var tx = coords[1] - defCoords[1];
+    var ty = coords[0] - defCoords[0];
+    var trans = 'translate(' + tx + ',' + ty + ')';
+    this.map.attr('transform', trans);
   };
 
   this.loadAirport = function() {
@@ -58,8 +66,8 @@ var Airport = function() {
   this.onLoadJapan = function(err, data) {
     var subunits = topojson.feature(data, data.objects.japan_subunits);
     this.center = d3.geo.centroid(subunits);
-    var projection = d3.geo.mercator().center(this.center).scale(1000);
-    var path = d3.geo.path().projection(projection);
+    this.projection = d3.geo.mercator().center(this.center).scale(1000);
+    var path = d3.geo.path().projection(this.projection);
 
     this.map.selectAll('.subunit')
     .data(subunits.features)
