@@ -4,6 +4,7 @@
   "dependencies": {
     "bootstrap-sass": "~3.3.5",
     "d3": "~3.5.12",
+    "font-awesome": "~4.5.0",
     "lodash": "~4.2.1",
     "modernizr": "~2.8.1",
     "perfect-scrollbar": "~0.6.10",
@@ -15,6 +16,17 @@
         "assets/stylesheets/_bootstrap.scss",
         "assets/fonts/bootstrap/*",
         "assets/javascripts/bootstrap.js"
+      ]
+    },
+    "font-awesome": {
+      "main": [
+        "scss/font-awesome.scss",
+        "fonts/FontAwesome.otf",
+        "fonts/fontawesome-webfont.eot",
+        "fonts/fontawesome-webfont.svg",
+        "fonts/fontawesome-webfont.ttf",
+        "fonts/fontawesome-webfont.woff",
+        "fonts/fontawesome-webfont.woff2"
       ]
     }
   },
