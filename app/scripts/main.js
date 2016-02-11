@@ -85,7 +85,9 @@ var Airport = function() {
 };
 
 $(function() {
-    var airport = new Airport();
-    airport.loadJapan();
-    airport.loadAirport();
+    $('#wrapper').hide();
+    $('#cover').show();
+    // var airport = new Airport();
+    // airport.loadJapan();
+    // airport.loadAirport();
 }());
