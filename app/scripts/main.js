@@ -85,9 +85,19 @@ var Airport = function() {
 };
 
 $(function() {
+    // initial state.
     $('#wrapper').hide();
     $('#cover').show();
-    // var airport = new Airport();
-    // airport.loadJapan();
-    // airport.loadAirport();
+
+    var airport = new Airport();
+    airport.loadJapan();
+    airport.loadAirport();
+
+    // load the feature of each prefecture.
+    // load the airports polygons.
+    // load the airports points.
+    // load the airports terminal buildings.
+
+    // $('#cover').hide();
+    // $('#wrapper').show();
 }());
