@@ -86,8 +86,8 @@ var Airport = function() {
 
 $(function() {
     // initial state.
-    $('#wrapper').hide();
-    $('#cover').show();
+    var container = new Container();
+    container.init();
 
     var airport = new Airport();
     airport.loadJapan();
@@ -97,7 +97,6 @@ $(function() {
     // load the airports polygons.
     // load the airports points.
     // load the airports terminal buildings.
+    // container.open();
 
-    // $('#cover').hide();
-    // $('#wrapper').show();
 }());
