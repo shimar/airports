@@ -11,6 +11,14 @@ var Airport = function() {
   this.terminals  = null;
   this.refpoints  = null;
 
+  this.init = function(done) {
+    this.loadJapan();
+    this.loadAirport();
+    if (done) {
+      done();
+    }
+  };
+
   this.onLoadAirport = function(err, data) {
     this.initMap(data);
     this.initAirportList(data);
@@ -90,8 +98,8 @@ $(function() {
     container.init();
 
     var airport = new Airport();
-    airport.loadJapan();
-    airport.loadAirport();
+    airport.init();
+    // airport.init(container.open.bind(container));
 
     // load the feature of each prefecture.
     // load the airports polygons.

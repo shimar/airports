@@ -1,0 +1,13 @@
+#cover {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    width:  100%;
+    height: 100%;
+    .loading-icon {
+      padding: 20px;
+    }
+}
+
