@@ -1,8 +1,9 @@
 var Airport = function() {
   this.width  = '100%';
   this.height = $(window).innerHeight();
-  this.map = d3.select('#map').append('svg')
-             .attr('width', this.width)
+  this.map = d3.select('#map')
+             .append('svg')
+             .attr('width',  this.width)
              .attr('height', this.height)
              .append('g');
 
@@ -19,6 +20,8 @@ var Airport = function() {
     // load the airports terminal buildings.
     this.loadJapan();
     this.loadAirport();
+    this.loadReferencePoints();
+    this.loadTerminalBuildings();
     if (done) {
       done();
     }
@@ -86,13 +89,22 @@ var Airport = function() {
     var center    = d3.geo.centroid(feature);
     var coords    = this.projection(center);
     var defCoords = this.projection(this.center);
-    console.log(defCoords);
-    console.log(coords);
     var tx = coords[1] - defCoords[1];
     var ty = coords[0] - defCoords[0];
     var trans = 'translate(' + tx + ',' + ty + ')';
-    console.log(trans);
     this.map.attr('transform', trans);
+  };
+
+  this.loadReferencePoints = function() {
+    d3.json('json/AirportReferencePoint.json', function(err, data) {
+      console.log(data);
+    });
+  };
+
+  this.loadTerminalBuildings = function() {
+    d3.json('json/TerminalBuilding.json', function(err, data) {
+      console.log(data);
+    });
   };
 
   return this;
