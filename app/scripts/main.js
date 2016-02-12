@@ -12,11 +12,37 @@ var Airport = function() {
   this.refpoints  = null;
 
   this.init = function(done) {
+    // load the feature of each prefecture.
+    // load the airports polygons.
+    // load the airports points.
+    // load the airports terminal buildings.
     this.loadJapan();
     this.loadAirport();
     if (done) {
       done();
     }
+  };
+
+  this.loadJapan = function() {
+    d3.json('json/japan.topojson', this.onLoadJapan.bind(this));
+  };
+
+  this.onLoadJapan = function(err, data) {
+    var subunits = topojson.feature(data, data.objects.japan_subunits);
+    this.center = d3.geo.centroid(subunits);
+    this.projection = d3.geo.mercator().center(this.center).scale(1000);
+    var path = d3.geo.path().projection(this.projection);
+
+    this.map.selectAll('.subunit')
+    .data(subunits.features)
+    .enter()
+    .append('path')
+    .attr('class', 'subunit')
+    .attr('d', path);
+  };
+
+  this.loadAirport = function() {
+    d3.json('json/Airport.json', this.onLoadAirport.bind(this));
   };
 
   this.onLoadAirport = function(err, data) {
@@ -26,7 +52,6 @@ var Airport = function() {
 
   this.initMap = function(data) {
     var path = d3.geo.path().projection(this.projection);
-
     this.map.selectAll('path').data(data.features)
     .enter()
     .append('path')
@@ -67,44 +92,12 @@ var Airport = function() {
     this.map.attr('transform', trans);
   };
 
-  this.loadAirport = function() {
-    d3.json('json/Airport.json', this.onLoadAirport.bind(this));
-  };
-
-  this.onLoadJapan = function(err, data) {
-    var subunits = topojson.feature(data, data.objects.japan_subunits);
-    this.center = d3.geo.centroid(subunits);
-    this.projection = d3.geo.mercator().center(this.center).scale(1000);
-    var path = d3.geo.path().projection(this.projection);
-
-    this.map.selectAll('.subunit')
-    .data(subunits.features)
-    .enter()
-    .append('path')
-    .attr('class', 'subunit')
-    .attr('d', path);
-  };
-
-  this.loadJapan = function() {
-    d3.json('json/japan.topojson', this.onLoadJapan.bind(this));
-  };
-
   return this;
 };
 
 $(function() {
-    // initial state.
     var container = new Container();
     container.init();
-
     var airport = new Airport();
-    airport.init();
-    // airport.init(container.open.bind(container));
-
-    // load the feature of each prefecture.
-    // load the airports polygons.
-    // load the airports points.
-    // load the airports terminal buildings.
-    // container.open();
-
+    airport.init(container.open.bind(container));
 }());
