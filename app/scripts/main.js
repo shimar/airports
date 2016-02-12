@@ -3,7 +3,8 @@ var Airport = function() {
   this.height = $(window).innerHeight();
   this.map = d3.select('#map').append('svg')
              .attr('width', this.width)
-             .attr('height', this.height);
+             .attr('height', this.height)
+             .append('g');
 
   this.projection = null;
   this.center     = null;
@@ -79,16 +80,18 @@ var Airport = function() {
   };
 
   this.onListItemClick = function(event) {
-    var $target = $(event.target);
-    var index = $target.attr('data-index');
-    var feature = this.airports[index];
-    var center = d3.geo.centroid(feature);
-    var coords = this.projection(center);
+    var $target   = $(event.target);
+    var index     = $target.attr('data-index');
+    var feature   = this.airports[index];
+    var center    = d3.geo.centroid(feature);
+    var coords    = this.projection(center);
     var defCoords = this.projection(this.center);
-
+    console.log(defCoords);
+    console.log(coords);
     var tx = coords[1] - defCoords[1];
     var ty = coords[0] - defCoords[0];
     var trans = 'translate(' + tx + ',' + ty + ')';
+    console.log(trans);
     this.map.attr('transform', trans);
   };
 
