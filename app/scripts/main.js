@@ -19,9 +19,9 @@ var Airport = function() {
     // load the airports points.
     // load the airports terminal buildings.
     this.loadJapan();
-    this.loadAirport();
     this.loadReferencePoints();
     this.loadTerminalBuildings();
+    this.loadAirport();
     if (done) {
       done();
     }
@@ -50,18 +50,18 @@ var Airport = function() {
   };
 
   this.onLoadAirport = function(err, data) {
-    this.initMap(data);
+    // this.initMap(data);
     this.initAirportList(data);
   };
 
-  this.initMap = function(data) {
-    var path = d3.geo.path().projection(this.projection);
-    this.map.selectAll('path').data(data.features)
-    .enter()
-    .append('path')
-    .attr('class', 'airport')
-    .attr('d', path);
-  };
+  // this.initMap = function(data) {
+  //   var path = d3.geo.path().projection(this.projection);
+  //   this.map.selectAll('path').data(data.features)
+  //   .enter()
+  //   .append('path')
+  //   .attr('class', 'airport')
+  //   .attr('d', path);
+  // };
 
   this.initAirportList = function(data) {
     var features = data.features;
@@ -96,9 +96,16 @@ var Airport = function() {
   };
 
   this.loadReferencePoints = function() {
-    d3.json('json/AirportReferencePoint.json', function(err, data) {
-      console.log(data);
-    });
+    d3.json('json/AirportReferencePoint.json', this.onLoadReferencePoints.bind(this));
+  };
+
+  this.onLoadReferencePoints = function(err, data) {
+    var path = d3.geo.path().projection(this.projection);
+    this.map.selectAll('path').data(data.features)
+    .enter()
+    .append('path')
+    .attr('class', 'airport-rp')
+    .attr('d', path);
   };
 
   this.loadTerminalBuildings = function() {
