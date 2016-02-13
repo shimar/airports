@@ -1,11 +1,15 @@
 /* _map.scss */
-
 .airport {
     stroke: #0000ff;
     fill:   rgba(0, 0, 200, .8);
     &:hover {
         cursor: pointer;
     }
+}
+
+.airport-rp {
+    stroke: #0000ff;
+    fill:   rgba(0, 0, 255, .5);
 }
 
 .subunit {
