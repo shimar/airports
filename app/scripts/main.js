@@ -23,7 +23,9 @@ var Airport = function() {
     this.loadTerminalBuildings();
     this.loadAirport();
     if (done) {
-      done();
+      setTimeout(function() {
+        done();
+      }, 3000);
     }
   };
 
