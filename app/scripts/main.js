@@ -4,7 +4,7 @@ var Airport = function() {
   this.map = d3.select('#map')
              .append('svg')
              .attr('width',  this.width)
-             .attr('height', this.height)
+             .attr('height', this.height - 10)
              .append('g');
 
   this.projection = null;
@@ -95,6 +95,7 @@ var Airport = function() {
     var ty = coords[0] - defCoords[0];
     var trans = 'translate(' + tx + ',' + ty + ')';
     this.map.attr('transform', trans);
+    this.projection.center(center);
   };
 
   this.loadReferencePoints = function() {
