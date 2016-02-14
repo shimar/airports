@@ -1,18 +1,26 @@
 /* _map.scss */
-.airport {
-    stroke: #0000ff;
-    fill:   rgba(0, 0, 200, .8);
-    &:hover {
-        cursor: pointer;
+#map {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    width:  100%;
+    height: 100%;
+    .airport {
+        stroke: #0000ff;
+        fill:   rgba(0, 0, 200, .8);
+        &:hover {
+            cursor: pointer;
+        }
+    }
+
+    .airport-rp {
+        stroke: #0000ff;
+        fill:   rgba(0, 0, 255, .5);
+    }
+
+    .subunit {
+        fill: #aaa;
     }
 }
-
-.airport-rp {
-    stroke: #0000ff;
-    fill:   rgba(0, 0, 255, .5);
-}
-
-.subunit {
-  fill: #aaa;
-}
-
