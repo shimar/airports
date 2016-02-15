@@ -52,18 +52,8 @@ var Airport = function() {
   };
 
   this.onLoadAirport = function(err, data) {
-    // this.initMap(data);
     this.initAirportList(data);
   };
-
-  // this.initMap = function(data) {
-  //   var path = d3.geo.path().projection(this.projection);
-  //   this.map.selectAll('path').data(data.features)
-  //   .enter()
-  //   .append('path')
-  //   .attr('class', 'airport')
-  //   .attr('d', path);
-  // };
 
   this.initAirportList = function(data) {
     var features = data.features;
