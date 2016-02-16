@@ -18,7 +18,7 @@ var Airport = function() {
     // load the airports polygons.
     // load the airports points.
     // load the airports terminal buildings.
-    this.loadJapan();
+    this.loadJapan(this.onLoadJapan.bind(this));
     this.loadReferencePoints();
     this.loadTerminalBuildings();
     this.loadAirport();
@@ -29,8 +29,10 @@ var Airport = function() {
     }
   };
 
-  this.loadJapan = function() {
-    d3.json('json/japan.topojson', this.onLoadJapan.bind(this));
+  this.loadJapan = function(callback) {
+    d3.json('json/japan.topojson', function(err, data) {
+      callback(err, data);
+    });
   };
 
   this.onLoadJapan = function(err, data) {
