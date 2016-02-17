@@ -14,14 +14,11 @@ var Airport = function() {
   this.refpoints  = null;
 
   this.init = function(done) {
-    // load the feature of each prefecture.
-    // load the airports polygons.
-    // load the airports points.
-    // load the airports terminal buildings.
-    this.loadJapan(this.onLoadJapan.bind(this));
-    this.loadReferencePoints();
-    this.loadTerminalBuildings();
-    this.loadAirport();
+    $(window)
+    .queue(this.loadJapan.bind(this))
+    .queue(this.loadReferencePoints.bind(this))
+    .queue(this.loadTerminalBuildings.bind(this))
+    .queue(this.loadAirport.bind(this));
     if (done) {
       setTimeout(function() {
         done();
@@ -29,13 +26,13 @@ var Airport = function() {
     }
   };
 
-  this.loadJapan = function(callback) {
-    d3.json('json/japan.topojson', function(err, data) {
-      callback(err, data);
-    });
+  this.loadJapan = function(next) {
+    d3.json('json/japan.topojson', this.onLoadJapan.bind(this));
+    next();
   };
 
   this.onLoadJapan = function(err, data) {
+    console.log('onLoadJapan() start');
     var subunits = topojson.feature(data, data.objects.japan_subunits);
     this.center = d3.geo.centroid(subunits);
     this.projection = d3.geo.mercator().center(this.center).scale(1000);
@@ -47,10 +44,12 @@ var Airport = function() {
     .append('path')
     .attr('class', 'subunit')
     .attr('d', path);
+    console.log('onLoadJapan() end.');
   };
 
-  this.loadAirport = function() {
+  this.loadAirport = function(next) {
     d3.json('json/Airport.json', this.onLoadAirport.bind(this));
+    next();
   };
 
   this.onLoadAirport = function(err, data) {
@@ -90,23 +89,29 @@ var Airport = function() {
     this.projection.center(center);
   };
 
-  this.loadReferencePoints = function() {
+  this.loadReferencePoints = function(next) {
     d3.json('json/AirportReferencePoint.json', this.onLoadReferencePoints.bind(this));
+    next();
   };
 
   this.onLoadReferencePoints = function(err, data) {
+    console.log('onLoadReferencePoint() start.');
     var path = d3.geo.path().projection(this.projection);
     this.map.selectAll('path').data(data.features)
     .enter()
     .append('path')
     .attr('class', 'airport-rp')
     .attr('d', path);
+    console.log('onLoadReferencePoint() end.');
   };
 
-  this.loadTerminalBuildings = function() {
-    d3.json('json/TerminalBuilding.json', function(err, data) {
-      console.log(data);
-    });
+  this.loadTerminalBuildings = function(next) {
+    d3.json('json/TerminalBuilding.json', this.onLoadTerminalBuildings.bind(this));
+    next();
+  };
+
+  this.onLoadTerminalBuildings = function(err, data) {
+    console.log(data);
   };
 
   return this;
