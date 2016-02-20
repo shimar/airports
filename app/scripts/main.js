@@ -5,7 +5,8 @@ var Airport = function() {
              .append('svg')
              .attr('width',  this.width)
              .attr('height', this.height - 10)
-             .append('g');
+             .append('g')
+             .call(d3.behavior.zoom().on("zoom", this.zoom));
 
   this.projection = null;
   this.center     = null;
@@ -112,6 +113,10 @@ var Airport = function() {
 
   this.onLoadTerminalBuildings = function(err, data) {
     console.log(data);
+  };
+
+  this.zoom = function() {
+    console.log("zoom is called.");
   };
 
   return this;
