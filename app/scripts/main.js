@@ -5,8 +5,7 @@ var Airport = function() {
              .append('svg')
              .attr('width',  this.width)
              .attr('height', this.height - 10)
-             .append('g')
-             .call(d3.behavior.zoom().on("zoom", this.zoom));
+             .append('g');
 
   this.projection = null;
   this.center     = null;
@@ -115,9 +114,16 @@ var Airport = function() {
     console.log(data);
   };
 
-  this.zoom = function() {
-    console.log("zoom is called.");
-  };
+  this.zoom = d3.behavior.zoom().on('zoom', function(d) {
+                console.log('zoom:' + d);
+              });
+  this.map.call(this.zoom);
+
+
+  this.drag = d3.behavior.drag().on('drag', function(d) {
+                console.log('drag:' + d);
+              });
+  this.map.call(this.drag);
 
   return this;
 };
