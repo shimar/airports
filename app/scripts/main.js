@@ -1,10 +1,17 @@
 var Airport = function() {
   this.width  = '100%';
   this.height = $(window).innerHeight();
+
+  this.vbox_x = 200;
+  this.vbox_y = -200;
+  this.vbox_default_width  = this.vbox_width  = 1000;
+  this.vbox_default_height = this.vbox_height = 1000;
+
   this.map = d3.select('#map')
              .append('svg')
              .attr('width',  this.width)
              .attr('height', this.height - 10)
+             .attr('viewBox', '' + this.vbox_x + " " + this.vbox_y + " " + this.vbox_width + " " + this.vbox_height)
              .append('g');
 
   this.projection = null;
@@ -115,7 +122,7 @@ var Airport = function() {
   };
 
   this.zoom = d3.behavior.zoom().on('zoom', function(d) {
-                console.log('zoom:' + d);
+                console.log('zoom:' + d3.event);
               });
   this.map.call(this.zoom);
 
