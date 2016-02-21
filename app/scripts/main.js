@@ -4,17 +4,17 @@ var Airport = function() {
 
   this.vbox_x = 0;
   this.vbox_y = 0;
-  this.vbox_default_width  = this.vbox_width  = 1600;
-  this.vbox_default_height = this.vbox_height = 1000;
+  this.vbox_default_width  = this.vbox_width  = 800;
+  this.vbox_default_height = this.vbox_height = 500;
 
   this.map = d3.select('#map')
              .append('svg')
              .attr('x', 0)
              .attr('y', 0)
              .attr('width',  this.width)
-             .attr('height', this.height);
-             // .attr('viewBox', '' + this.vbox_x + " " + this.vbox_y + " " + this.vbox_width + " " + this.vbox_height);
-  // this.map.append('g');
+             .attr('height', this.height)
+             .attr('viewBox', '' + this.vbox_x + " " + this.vbox_y + " " + this.vbox_width + " " + this.vbox_height);
+  this.map.append('g');
 
   this.projection = null;
   this.center     = null;
