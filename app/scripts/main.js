@@ -1,18 +1,20 @@
 var Airport = function() {
-  this.width  = '100%';
-  this.height = $(window).innerHeight();
+  this.width  = 800;
+  this.height = 500;
 
-  this.vbox_x = 200;
-  this.vbox_y = -200;
-  this.vbox_default_width  = this.vbox_width  = 1000;
+  this.vbox_x = 0;
+  this.vbox_y = 0;
+  this.vbox_default_width  = this.vbox_width  = 1600;
   this.vbox_default_height = this.vbox_height = 1000;
 
   this.map = d3.select('#map')
              .append('svg')
+             .attr('x', 0)
+             .attr('y', 0)
              .attr('width',  this.width)
-             .attr('height', this.height - 10)
-             .attr('viewBox', '' + this.vbox_x + " " + this.vbox_y + " " + this.vbox_width + " " + this.vbox_height)
-             .append('g');
+             .attr('height', this.height);
+             // .attr('viewBox', '' + this.vbox_x + " " + this.vbox_y + " " + this.vbox_width + " " + this.vbox_height);
+  // this.map.append('g');
 
   this.projection = null;
   this.center     = null;
@@ -122,15 +124,16 @@ var Airport = function() {
   };
 
   this.zoom = d3.behavior.zoom().on('zoom', function(d) {
-                console.log('zoom:' + d3.event);
               });
   this.map.call(this.zoom);
 
 
-  this.drag = d3.behavior.drag().on('drag', function(d) {
-                console.log('drag:' + d);
-              });
-  this.map.call(this.drag);
+  // this.drag = function(d) {
+  //   this.vbox_x -= d3.event.dx;
+  //   this.vbox_y -= d3.event.dy;
+  //   return this.map.attr("translate", "100 100");
+  // };
+  // this.map.call(d3.behavior.drag().on('drag', this.drag.bind(this)));
 
   return this;
 };
