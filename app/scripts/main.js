@@ -1,5 +1,5 @@
 var Airport = function() {
-  this.width  = 800;
+  this.width  = '100%';
   this.height = 500;
 
   this.vbox_x = 0;
@@ -9,18 +9,18 @@ var Airport = function() {
 
   this.map = d3.select('#map')
              .append('svg')
-             .attr('x', 0)
-             .attr('y', 0)
              .attr('width',  this.width)
-             .attr('height', this.height)
-             .attr('viewBox', '' + this.vbox_x + " " + this.vbox_y + " " + this.vbox_width + " " + this.vbox_height);
-  this.map.append('g');
-
+             .attr('height', this.height);
+             // .attr('viewBox', '' + this.vbox_x + " " + this.vbox_y + " " + this.vbox_width + " " + this.vbox_height);
   this.projection = null;
   this.center     = null;
   this.airports   = null;
   this.terminals  = null;
   this.refpoints  = null;
+
+  this.zoom = d3.behavior.zoom()
+              .scaleExtent([1, 8])
+              .on('zoom', this.zoomed);
 
   this.init = function(done) {
     $(window)
@@ -88,9 +88,40 @@ var Airport = function() {
     var $target   = $(event.target);
     var index     = $target.attr('data-index');
     var feature   = this.airports[index];
-    var center    = d3.geo.centroid(feature);
-    var coords    = this.projection(center);
-    var defCoords = this.projection(this.center);
+    var center    = this.projection(d3.geo.centroid(feature));
+
+    var direction  = 1;
+    var factor     = 0.2;
+    var targetZoom = 1;
+    var extent     = this.zoom.scaleExtent();
+    var translate  = this.zoom.translate();
+    var translate0 = [];
+    var l          = [];
+    var view = { x: translate[0], y: translate[1], k: this.zoom.scale() };
+
+    console.log(this.zoom.scale());
+    console.log(this.zoom.translate());
+    // targetZoom = this.zoom.scale() * (4 + factor * direction);
+    targetZoom = 8;
+
+    translate0 = [
+      (center[0] - view.x) / view.k,
+      (center[1] - view.y) / view.k
+    ];
+    view.k = targetZoom;
+    console.log("c :" + center);
+    console.log("t0:" + translate0);
+
+    l = [
+      translate0[0] * view.k + view.x,
+      translate0[1] * view.k + view.y
+    ];
+    console.log("l :" + l);
+    view.x += center[0] - l[0];
+    view.y += center[1] - l[1];
+
+    console.log("v :" + view.x + ", " + view.y + ", " + view.k);
+    this.interpolateZoom([view.x, view.y], view.k);
   };
 
   this.loadReferencePoints = function(next) {
@@ -118,21 +149,23 @@ var Airport = function() {
     console.log(data);
   };
 
-  this.zoom = d3.behavior.zoom().on('zoom', this.zoomed);
-
   this.interpolateZoom = function(translate, scale) {
+    var zoom   = this.zoom;
+    var zoomed = this.zoomed.bind(this);
     return d3.transition().duration(350).tween('zoom', function() {
-             var itranslate = d3.interpolate(this.zoom.translate(), translate);
-             var iscale     = d3.interpolate(this.zoom.scale(), scale);
+             var itranslate = d3.interpolate(zoom.translate(), translate);
+             var iscale     = d3.interpolate(zoom.scale(), scale);
              return function(t) {
-               this.zoom.scale(iscale(t)).translate(itranslate(t));
-               this.zoomed();
+               zoom.scale(iscale(t)).translate(itranslate(t));
+               zoomed();
              };
            });
   };
 
   this.zoomed = function() {
-    cosole.log("zoomed");
+    this.map.attr('transform',
+                 "translate(" + this.zoom.translate() + ")" +
+                 " scale(" + this.zoom.scale() + ")");
   };
 
   return this;
