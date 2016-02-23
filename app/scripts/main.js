@@ -91,11 +91,6 @@ var Airport = function() {
     var center    = d3.geo.centroid(feature);
     var coords    = this.projection(center);
     var defCoords = this.projection(this.center);
-    var tx = coords[1] - defCoords[1];
-    var ty = coords[0] - defCoords[0];
-    var trans = 'translate(' + tx + ',' + ty + ')';
-    this.map.attr('transform', trans);
-    this.projection.center(center);
   };
 
   this.loadReferencePoints = function(next) {
@@ -123,17 +118,22 @@ var Airport = function() {
     console.log(data);
   };
 
-  this.zoom = d3.behavior.zoom().on('zoom', function(d) {
-              });
-  this.map.call(this.zoom);
+  this.zoom = d3.behavior.zoom().on('zoom', this.zoomed);
 
+  this.interpolateZoom = function(translate, scale) {
+    return d3.transition().duration(350).tween('zoom', function() {
+             var itranslate = d3.interpolate(this.zoom.translate(), translate);
+             var iscale     = d3.interpolate(this.zoom.scale(), scale);
+             return function(t) {
+               this.zoom.scale(iscale(t)).translate(itranslate(t));
+               this.zoomed();
+             };
+           });
+  };
 
-  // this.drag = function(d) {
-  //   this.vbox_x -= d3.event.dx;
-  //   this.vbox_y -= d3.event.dy;
-  //   return this.map.attr("translate", "100 100");
-  // };
-  // this.map.call(d3.behavior.drag().on('drag', this.drag.bind(this)));
+  this.zoomed = function() {
+    cosole.log("zoomed");
+  };
 
   return this;
 };
